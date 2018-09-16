@@ -15,5 +15,5 @@
             android:id="@+id/editText" app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="24dp" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5" app:layout_constraintEnd_toEndOf="parent"
-            android:hint="Ex. Kotlin JSON Parser"/>
+            android:hint="@string/EditTextHint"/>
 </android.support.constraint.ConstraintLayout>
