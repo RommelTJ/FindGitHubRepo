@@ -1,5 +1,6 @@
 package com.rommelrico.findgithubrepo
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -12,7 +13,9 @@ class MainActivity : AppCompatActivity() {
 
         val button = findViewById<Button>(R.id.searchButton)
         button.setOnClickListener {
-            
+            val intent = Intent(this, SearchResultActivity::class.java)
+            intent.putExtra("searchTerm", "")
+            startActivity(intent)
         }
     }
 }
