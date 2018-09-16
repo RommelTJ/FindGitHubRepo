@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         val button = findViewById<Button>(R.id.searchButton)
         button.setOnClickListener {
             val intent = Intent(this, SearchResultActivity::class.java)
-            intent.putExtra("searchTerm", "")
+            intent.putExtra("searchTerm", "Hello")
             startActivity(intent)
         }
     }
