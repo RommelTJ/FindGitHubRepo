@@ -12,5 +12,5 @@ interface GitHubService {
 }
 
 class GitHubSearchResult(val items: List<Repo>)
-class Repo(val full_name: String, val owner: GitHubUser)
+class Repo(val full_name: String, val owner: GitHubUser, val html_url: String)
 class GitHubUser(val avatar_url: String)
