@@ -18,7 +18,12 @@ class SearchResultActivity : AppCompatActivity() {
         val retriever = GitHubRetriever()
         val callback = object: Callback<GitHubSearchResult> {
             override fun onResponse(call: Call<GitHubSearchResult>, response: Response<GitHubSearchResult>) {
-                println("It's working")
+                val searchResult = response?.body()
+                if (searchResult != null) {
+                    for (repo in searchResult!!.items) {
+                        println(repo.full_name)
+                    }
+                }
             }
 
             override fun onFailure(call: Call<GitHubSearchResult>, t: Throwable) {
