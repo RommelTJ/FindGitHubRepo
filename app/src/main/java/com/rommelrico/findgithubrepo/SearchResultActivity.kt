@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.view.LayoutInflater
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.View
 import android.view.ViewGroup
 
@@ -35,7 +37,8 @@ class SearchResultActivity : AppCompatActivity() {
                     listView.setOnItemClickListener { parent, view, position, id ->
                         val selectedRepo = searchResult.items[position]
                         // Open URL in browser.
-                        println("Test")
+                        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(selectedRepo.html_url))
+                        startActivity(browserIntent)
                     }
 
                     val adapter = RepoAdapter(this@SearchResultActivity, android.R.layout.simple_list_item_1, searchResult.items)
