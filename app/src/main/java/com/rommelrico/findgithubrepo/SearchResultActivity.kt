@@ -58,10 +58,12 @@ class RepoAdapter(context: Context?, resource: Int, objects: List<Repo>?): Array
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val inflator = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val repoView = inflator.inflate(android.R.layout.simple_list_item_1, parent, false) as TextView
+        val repoView = inflator.inflate(R.layout.repo_list_layout, parent, false)
+
+        val textView = repoView.findViewById<TextView>(R.id.repoTextView)
 
         val repoItem = getItem(position)
-        repoView.text = repoItem.full_name
+        textView.text = repoItem.full_name
 
         return repoView
     }
