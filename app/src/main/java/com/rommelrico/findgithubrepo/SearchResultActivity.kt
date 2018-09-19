@@ -7,6 +7,11 @@ import retrofit2.Callback
 import retrofit2.Response
 import android.widget.ListView
 import android.widget.ArrayAdapter
+import android.widget.TextView
+import android.view.LayoutInflater
+import android.content.Context
+import android.view.View
+import android.view.ViewGroup
 
 class SearchResultActivity : AppCompatActivity() {
 
@@ -27,7 +32,7 @@ class SearchResultActivity : AppCompatActivity() {
                     }
 
                     val listView = findViewById<ListView>(R.id.repoListView)
-                    val adapter = ArrayAdapter(this@SearchResultActivity, android.R.layout.simple_list_item_1, searchResult.items)
+                    val adapter = RepoAdapter(this@SearchResultActivity, android.R.layout.simple_list_item_1, searchResult.items)
                     listView.adapter = adapter
                 }
             }
@@ -37,5 +42,21 @@ class SearchResultActivity : AppCompatActivity() {
             }
         }
         retriever.searchRepos(callback, searchTerm!!)
+    }
+}
+
+class RepoAdapter(context: Context?, resource: Int, objects: List<Repo>?): ArrayAdapter<Repo>(context, resource, objects) {
+    override fun getCount(): Int {
+        return super.getCount()
+    }
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        val inflator = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val repoView = inflator.inflate(android.R.layout.simple_list_item_1, parent, false) as TextView
+
+        val repoItem = getItem(position)
+        repoView.text = repoItem.full_name
+
+        return repoView
     }
 }
