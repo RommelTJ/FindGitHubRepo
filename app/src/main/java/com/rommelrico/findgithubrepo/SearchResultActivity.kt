@@ -32,6 +32,12 @@ class SearchResultActivity : AppCompatActivity() {
                     }
 
                     val listView = findViewById<ListView>(R.id.repoListView)
+                    listView.setOnItemClickListener { parent, view, position, id ->
+                        val selectedRepo = searchResult.items[position]
+                        // Open URL in browser.
+                        println("Test")
+                    }
+
                     val adapter = RepoAdapter(this@SearchResultActivity, android.R.layout.simple_list_item_1, searchResult.items)
                     listView.adapter = adapter
                 }
