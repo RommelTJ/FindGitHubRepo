@@ -46,9 +46,6 @@ class SearchResultActivity : AppCompatActivity() {
 }
 
 class RepoAdapter(context: Context?, resource: Int, objects: List<Repo>?): ArrayAdapter<Repo>(context, resource, objects) {
-    override fun getCount(): Int {
-        return super.getCount()
-    }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val inflator = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
