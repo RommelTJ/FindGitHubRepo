@@ -1,6 +1,6 @@
 # FindGitHubRepo
 
-Version: 0.0.4 - 19 Sep 2018
+Version: 0.0.5 - 20 Sep 2018
 
 ## Description
 
