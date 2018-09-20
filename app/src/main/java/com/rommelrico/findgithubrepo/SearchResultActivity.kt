@@ -15,6 +15,7 @@ import android.net.Uri
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.squareup.picasso.Picasso
 
 class SearchResultActivity : AppCompatActivity() {
 
@@ -65,6 +66,7 @@ class RepoAdapter(context: Context?, resource: Int, objects: List<Repo>?): Array
         val imageView = repoView.findViewById<ImageView>(R.id.repoImageView)
 
         val repoItem = getItem(position)
+        Picasso.get().load(Uri.parse(repoItem.owner.avatar_url)).into(imageView)
         textView.text = repoItem.full_name
 
         return repoView
