@@ -25,6 +25,13 @@ class SearchResultActivity : AppCompatActivity() {
 
         val searchTerm = intent.getStringExtra("searchTerm")
 
+        if (searchTerm != null) {
+            // CASE: Searching GitHub Projects
+        } else {
+            // CASE: Searching GitHub Username Repos.
+            val username = intent.getStringExtra("userSearchTerm")
+        }
+
         // Calling the GitHubRetriever
         val retriever = GitHubRetriever()
         val callback = object: Callback<GitHubSearchResult> {
