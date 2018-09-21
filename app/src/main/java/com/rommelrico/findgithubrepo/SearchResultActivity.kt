@@ -35,17 +35,7 @@ class SearchResultActivity : AppCompatActivity() {
                         for (repo in searchResult.items) {
                             println(repo.full_name)
                         }
-
-                        val listView = findViewById<ListView>(R.id.repoListView)
-                        listView.setOnItemClickListener { parent, view, position, id ->
-                            val selectedRepo = searchResult.items[position]
-                            // Open URL in browser.
-                            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(selectedRepo.html_url))
-                            startActivity(browserIntent)
-                        }
-
-                        val adapter = RepoAdapter(this@SearchResultActivity, android.R.layout.simple_list_item_1, searchResult.items)
-                        listView.adapter = adapter
+                        listProjects(searchResult)
                     }
                 }
 
@@ -89,6 +79,19 @@ class SearchResultActivity : AppCompatActivity() {
         }
 
         val adapter = RepoAdapter(this@SearchResultActivity, android.R.layout.simple_list_item_1, repos)
+        listView.adapter = adapter
+    }
+
+    fun listProjects(projects: GitHubSearchResult) {
+        val listView = findViewById<ListView>(R.id.repoListView)
+        listView.setOnItemClickListener { parent, view, position, id ->
+            val selectedRepo = projects.items[position]
+            // Open URL in browser.
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(selectedRepo.html_url))
+            startActivity(browserIntent)
+        }
+
+        val adapter = RepoAdapter(this@SearchResultActivity, android.R.layout.simple_list_item_1, projects.items)
         listView.adapter = adapter
     }
 }
