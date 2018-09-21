@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.support.design.widget.Snackbar
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -53,7 +54,8 @@ class SearchResultActivity : AppCompatActivity() {
                     val searchResult = response.body()
                     val statusCode = response.code()
                     if (statusCode == 404) {
-                        println("Handle 404")
+                        val searchView = findViewById<View>(R.id.searchActivity)
+                        Snackbar.make(searchView, "User Not Found :(", Snackbar.LENGTH_LONG).show()
                     } else if (searchResult != null) {
                         listRepos(repos = searchResult)
                     }
