@@ -57,6 +57,34 @@ class SearchResultActivity : AppCompatActivity() {
         } else {
             // CASE: Searching GitHub Username Repos.
             val username = intent.getStringExtra("userSearchTerm")
+
+            val callback = object: Callback<List<Repo>> {
+                override fun onResponse(call: Call<List<Repo>>, response: Response<List<Repo>>) {
+                    val searchResult = response.body()
+                    if (searchResult != null) {
+                        for (repo in searchResult) {
+                            println(repo.full_name)
+                        }
+
+                        val listView = findViewById<ListView>(R.id.repoListView)
+                        listView.setOnItemClickListener { parent, view, position, id ->
+                            val selectedRepo = searchResult[position]
+                            // Open URL in browser.
+                            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(selectedRepo.html_url))
+                            startActivity(browserIntent)
+                        }
+
+                        val adapter = RepoAdapter(this@SearchResultActivity, android.R.layout.simple_list_item_1, searchResult)
+                        listView.adapter = adapter
+                    }
+                }
+
+                override fun onFailure(call: Call<List<Repo>>, t: Throwable) {
+                    println("It's not working")
+                }
+            }
+
+            retriever.userRepos(callback, username)
         }
 
     }
