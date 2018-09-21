@@ -34,7 +34,8 @@ class SearchResultActivity : AppCompatActivity() {
                     val searchResult = response.body()
                     val statusCode = response.code()
                     if (statusCode == 404) {
-                        println("Handle 404")
+                        val searchView = findViewById<View>(R.id.searchActivity)
+                        Snackbar.make(searchView, "Projects Not Found :(", Snackbar.LENGTH_LONG).show()
                     } else if (searchResult != null) {
                         listProjects(projects = searchResult)
                     }
