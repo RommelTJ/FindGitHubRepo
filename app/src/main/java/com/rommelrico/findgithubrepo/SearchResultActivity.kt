@@ -31,9 +31,7 @@ class SearchResultActivity : AppCompatActivity() {
             val callback = object: Callback<GitHubSearchResult> {
                 override fun onResponse(call: Call<GitHubSearchResult>, response: Response<GitHubSearchResult>) {
                     val searchResult = response.body()
-                    if (searchResult != null) {
-                        listProjects(searchResult)
-                    }
+                    if (searchResult != null) listProjects(projects = searchResult)
                 }
 
                 override fun onFailure(call: Call<GitHubSearchResult>, t: Throwable) {
@@ -48,9 +46,7 @@ class SearchResultActivity : AppCompatActivity() {
             val callback = object: Callback<List<Repo>> {
                 override fun onResponse(call: Call<List<Repo>>, response: Response<List<Repo>>) {
                     val searchResult = response.body()
-                    if (searchResult != null) {
-                        listRepos(searchResult)
-                    }
+                    if (searchResult != null) listRepos(repos = searchResult)
                 }
 
                 override fun onFailure(call: Call<List<Repo>>, t: Throwable) {
