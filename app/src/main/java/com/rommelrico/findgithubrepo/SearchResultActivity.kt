@@ -66,16 +66,7 @@ class SearchResultActivity : AppCompatActivity() {
                             println(repo.full_name)
                         }
 
-                        val listView = findViewById<ListView>(R.id.repoListView)
-                        listView.setOnItemClickListener { parent, view, position, id ->
-                            val selectedRepo = searchResult[position]
-                            // Open URL in browser.
-                            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(selectedRepo.html_url))
-                            startActivity(browserIntent)
-                        }
-
-                        val adapter = RepoAdapter(this@SearchResultActivity, android.R.layout.simple_list_item_1, searchResult)
-                        listView.adapter = adapter
+                        listRepos(searchResult)
                     }
                 }
 
@@ -86,7 +77,19 @@ class SearchResultActivity : AppCompatActivity() {
 
             retriever.userRepos(callback, username)
         }
+    }
 
+    fun listRepos(repos: List<Repo>) {
+        val listView = findViewById<ListView>(R.id.repoListView)
+        listView.setOnItemClickListener { parent, view, position, id ->
+            val selectedRepo = repos[position]
+            // Open URL in browser.
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(selectedRepo.html_url))
+            startActivity(browserIntent)
+        }
+
+        val adapter = RepoAdapter(this@SearchResultActivity, android.R.layout.simple_list_item_1, repos)
+        listView.adapter = adapter
     }
 }
 
