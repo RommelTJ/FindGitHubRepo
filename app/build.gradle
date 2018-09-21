@@ -39,4 +39,7 @@ dependencies {
     // Picasso Image Library
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    // Design Support (used for the Snackbar)
+    implementation 'com.android.support:design:28.0.0-rc02'
+
 }

@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.support.design.widget.Snackbar
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -25,34 +26,75 @@ class SearchResultActivity : AppCompatActivity() {
 
         val searchTerm = intent.getStringExtra("searchTerm")
 
-        // Calling the GitHubRetriever
         val retriever = GitHubRetriever()
-        val callback = object: Callback<GitHubSearchResult> {
-            override fun onResponse(call: Call<GitHubSearchResult>, response: Response<GitHubSearchResult>) {
-                val searchResult = response.body()
-                if (searchResult != null) {
-                    for (repo in searchResult.items) {
-                        println(repo.full_name)
+        if (searchTerm != null) {
+            // CASE: Searching GitHub Projects
+            val callback = object: Callback<GitHubSearchResult> {
+                override fun onResponse(call: Call<GitHubSearchResult>, response: Response<GitHubSearchResult>) {
+                    val searchResult = response.body()
+                    val statusCode = response.code()
+                    if (statusCode == 404) {
+                        val searchView = findViewById<View>(R.id.searchActivity)
+                        Snackbar.make(searchView, "Projects Not Found :(", Snackbar.LENGTH_LONG).show()
+                    } else if (searchResult != null) {
+                        listProjects(projects = searchResult)
                     }
+                }
 
-                    val listView = findViewById<ListView>(R.id.repoListView)
-                    listView.setOnItemClickListener { parent, view, position, id ->
-                        val selectedRepo = searchResult.items[position]
-                        // Open URL in browser.
-                        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(selectedRepo.html_url))
-                        startActivity(browserIntent)
+                override fun onFailure(call: Call<GitHubSearchResult>, t: Throwable) {
+                    // Handle Failures
+                }
+            }
+            retriever.searchRepos(callback, searchTerm)
+        } else {
+            // CASE: Searching GitHub Username Repos.
+            val username = intent.getStringExtra("userSearchTerm")
+
+            val callback = object: Callback<List<Repo>> {
+                override fun onResponse(call: Call<List<Repo>>, response: Response<List<Repo>>) {
+                    val searchResult = response.body()
+                    val statusCode = response.code()
+                    if (statusCode == 404) {
+                        val searchView = findViewById<View>(R.id.searchActivity)
+                        Snackbar.make(searchView, "User Not Found :(", Snackbar.LENGTH_LONG).show()
+                    } else if (searchResult != null) {
+                        listRepos(repos = searchResult)
                     }
+                }
 
-                    val adapter = RepoAdapter(this@SearchResultActivity, android.R.layout.simple_list_item_1, searchResult.items)
-                    listView.adapter = adapter
+                override fun onFailure(call: Call<List<Repo>>, t: Throwable) {
+                    // Handle Failures
                 }
             }
 
-            override fun onFailure(call: Call<GitHubSearchResult>, t: Throwable) {
-                println("It's not working")
-            }
+            retriever.userRepos(callback, username)
         }
-        retriever.searchRepos(callback, searchTerm!!)
+    }
+
+    fun listRepos(repos: List<Repo>) {
+        val listView = findViewById<ListView>(R.id.repoListView)
+        listView.setOnItemClickListener { parent, view, position, id ->
+            val selectedRepo = repos[position]
+            // Open URL in browser.
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(selectedRepo.html_url))
+            startActivity(browserIntent)
+        }
+
+        val adapter = RepoAdapter(this@SearchResultActivity, android.R.layout.simple_list_item_1, repos)
+        listView.adapter = adapter
+    }
+
+    fun listProjects(projects: GitHubSearchResult) {
+        val listView = findViewById<ListView>(R.id.repoListView)
+        listView.setOnItemClickListener { parent, view, position, id ->
+            val selectedRepo = projects.items[position]
+            // Open URL in browser.
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(selectedRepo.html_url))
+            startActivity(browserIntent)
+        }
+
+        val adapter = RepoAdapter(this@SearchResultActivity, android.R.layout.simple_list_item_1, projects.items)
+        listView.adapter = adapter
     }
 }
 

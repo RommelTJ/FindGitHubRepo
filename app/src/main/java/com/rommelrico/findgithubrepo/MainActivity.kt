@@ -20,5 +20,13 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("searchTerm", searchEditText.text.toString())
             startActivity(intent)
         }
+
+        val userSearchEditText = findViewById<EditText>(R.id.userSearchEditText)
+        val userSearchButton = findViewById<Button>(R.id.userSearchButton)
+        userSearchButton.setOnClickListener {
+            val intent = Intent(this, SearchResultActivity::class.java)
+            intent.putExtra("userSearchTerm", userSearchEditText.text.toString())
+            startActivity(intent)
+        }
     }
 }
