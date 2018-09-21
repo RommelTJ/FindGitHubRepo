@@ -32,15 +32,12 @@ class SearchResultActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<GitHubSearchResult>, response: Response<GitHubSearchResult>) {
                     val searchResult = response.body()
                     if (searchResult != null) {
-                        for (repo in searchResult.items) {
-                            println(repo.full_name)
-                        }
                         listProjects(searchResult)
                     }
                 }
 
                 override fun onFailure(call: Call<GitHubSearchResult>, t: Throwable) {
-                    println("It's not working")
+                    // Handle Failures
                 }
             }
             retriever.searchRepos(callback, searchTerm)
@@ -52,16 +49,12 @@ class SearchResultActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<List<Repo>>, response: Response<List<Repo>>) {
                     val searchResult = response.body()
                     if (searchResult != null) {
-                        for (repo in searchResult) {
-                            println(repo.full_name)
-                        }
-
                         listRepos(searchResult)
                     }
                 }
 
                 override fun onFailure(call: Call<List<Repo>>, t: Throwable) {
-                    println("It's not working")
+                    // Handle Failures
                 }
             }
 
